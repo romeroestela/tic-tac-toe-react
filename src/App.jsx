@@ -33,22 +33,15 @@ const WINNER_COMBOS = [
 ]
 
 const MensajeWinner = ({winner}) => {
-
+  
   return (
     <div>
-      <p>¡Tenemos un ganador! ¡{winner}  eres el ganador!</p>
+      <h1>El ganador es:</h1>
+      <h2 className='win'> <Square>{winner}</Square></h2>
     </div>
   )
 }
 
-const MensajeEmpate = () => {
-
-  return (
-    <div>
-      <p>¡Tenemos un empate!</p>
-    </div>
-  )
-}
 
 function App() {
 
@@ -84,11 +77,22 @@ function App() {
     const newTurn = turn == TURNS.X ? TURNS.O : TURNS.X 
     setTurn(newTurn)
 
+    const checkEndGame = (newBoard) => {
+      return newBoard.every((square) => square !== null)
+    }
     const newWinner = checkWinner(newBoard)
     if(newWinner) {
       setWinner(newWinner)
       MensajeWinner(newWinner)
+    } else if(checkEndGame(newBoard)){
+      setWinner(false) //Empate
     }
+
+  }
+  const resetGame = () =>{
+    setBoard(Array(9).fill(null))
+    setTurn(TURNS.X)
+    setWinner(null)
   }
 
   return (
@@ -96,27 +100,38 @@ function App() {
       <h1>Tic Tac Toe</h1>
       <section className='game'>
         {
-          board.map((_, index) => {
+          board.map((square, index) => {
             return (
               <Square 
                 key={index}
                 index={index}
                 updateBoard={updateBoard}
               >
-                {board[index]}
+                {square}
               </Square>
             )
           })
         }
       </section>
       {
-        winner && (
+        winner !== null && (
           <section className='winner'>
-          <MensajeWinner 
-            winner={winner}
-          >
-          </MensajeWinner>
-      </section>
+            <div className='text'>
+              <h2>
+                {
+                  winner == false 
+                  ? 'Empate'
+                  : <MensajeWinner
+                      winner={winner}
+                    >
+                    </MensajeWinner>
+                }
+              </h2>
+              <footer>
+                <button onClick={resetGame} >Empezar de nuevo</button>
+              </footer>
+            </div> 
+          </section>
         ) 
       }
       

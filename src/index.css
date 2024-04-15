@@ -108,6 +108,7 @@
     justify-content: center;
     align-items: center;
     gap: 20px;
+    z-index: 9999999;
   }
   
   .winner .win {
