@@ -1,4 +1,5 @@
 import { Square } from "./Square"
+import PropTypes from 'prop-types';
 
 export const MensajeWinner = ({winner}) => {
     return (
@@ -7,4 +8,8 @@ export const MensajeWinner = ({winner}) => {
         <h2 className='win'> <Square>{winner}</Square></h2>
       </div>
     )
+  }
+
+  MensajeWinner.propTypes = {
+    winner: PropTypes.any.isRequired
   }
